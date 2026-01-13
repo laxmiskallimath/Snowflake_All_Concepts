@@ -41,8 +41,6 @@ Snowflake stores data in compressed columnar format in cloud storage.
 - Used for running queries, loading, and transformations
 - Compute is independent from storage
 
----
-
 ## Warehouse Sizes
 - XS – 1 server
 - S – 2 servers
@@ -56,7 +54,6 @@ Snowflake stores data in compressed columnar format in cloud storage.
 
 Bigger warehouse >> faster performance >> higher cost
 
----
 ## Credit Consumption
 - Warehouses consume credits per hour
 - XS warehouse consumes 1 credit per hour
@@ -65,16 +62,12 @@ Bigger warehouse >> faster performance >> higher cost
 
 Snowflake charges compute based on warehouse size and active time.
 
----
-
 ## Multi-Clustering
 
 - Used when many queries run at the same time
 - Additional clusters are added automatically
 - Helps avoid query queuing
 - Improves concurrency
-
----
 
 ## Cloud Services Layer
 - Called the brain of the system
