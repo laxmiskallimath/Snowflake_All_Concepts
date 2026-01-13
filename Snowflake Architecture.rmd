@@ -1,0 +1,85 @@
+## Snowflake Architecture
+
+Snowflake is a cloud-based analytical data platform.
+The main concept is separation of storage and compute.
+
+## Snowflake Architecture
+Snowflake has three layers:
+- Storage Layer
+- Query Processing Layer (Compute)
+- Cloud Services Layer
+
+## Storage Layer :
+- Stores the actual data
+- Data is not stored inside Snowflake
+- Data is stored in cloud storage:
+  - AWS S3
+  - Azure Blob Storage
+  - GCP Cloud Storage
+- Storage is fully managed by Snowflake
+
+### Storage Format
+- Uses hybrid columnar storage
+- Data is stored in columns
+- Data is compressed
+- Stored as micro-partitions (blobs)
+
+### Why this is used
+- Better compression
+- Faster analytical queries
+- Optimized for analytics, not transactions
+
+Snowflake stores data in compressed columnar format in cloud storage.
+
+## Query Processing Layer (Compute)
+- Executes queries
+- Also called the muscle of the system
+- Uses virtual warehouses
+
+### Virtual Warehouses
+- Virtual compute clusters
+- Used for running queries, loading, and transformations
+- Compute is independent from storage
+
+---
+
+## Warehouse Sizes
+- XS – 1 server
+- S – 2 servers
+- M – 4 servers
+- L – 8 servers
+- XL – 16 servers
+- 2XL – 32 servers
+- 3XL – 64 servers
+- 4XL – 128 servers
+- 5XL - 256 servers
+
+Bigger warehouse >> faster performance >> higher cost
+
+---
+## Credit Consumption
+- Warehouses consume credits per hour
+- XS warehouse consumes 1 credit per hour
+- Billing is per second
+- Charged only when warehouse is running
+
+Snowflake charges compute based on warehouse size and active time.
+
+---
+
+## Multi-Clustering
+
+- Used when many queries run at the same time
+- Additional clusters are added automatically
+- Helps avoid query queuing
+- Improves concurrency
+
+---
+
+## Cloud Services Layer
+- Called the brain of the system
+- Manages:
+  - Authentication and access control
+  - Metadata
+  - Query optimization
+  - Infrastructure orchestration
