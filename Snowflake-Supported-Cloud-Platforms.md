@@ -29,22 +29,3 @@ Each cloud platform has multiple regions where Snowflake accounts can be provisi
 
 Organizations can choose the same cloud platform they already use, or select a different one depending on business needs.
 
-# Snowflake Tools
-
-The tools and services offered by Snowflake are listed below.
-
-## Snowsight
-Snowsight is Snowflake’s web UI used for interacting with data. It provides a browser based interface for running queries, exploring data, creating worksheets, and managing database objects.
-
-## SnowSQL
-SnowSQL is Snowflake’s command-line client used to connect to Snowflake and execute SQL queries. It supports DML, DDL, data loading, and administrative tasks.
-
-## Snowflake Connectors and Drivers
-Snowflake provides various connectors and drivers that allow external applications and programming languages to connect to Snowflake. These are used by Python, Java, Spark, ETL tools, BI tools, and other environments.
-
-## Snowpark
-Snowpark is a platform that offers libraries and runtimes for using Python and other programming languages within Snowflake. It enables building data pipelines, machine learning models, applications, and more directly inside the Snowflake environment.
-
-## SnowCD
-SnowCD is a command line utility used for diagnosing and troubleshooting network connectivity issues between our environment and Snowflake.
-
