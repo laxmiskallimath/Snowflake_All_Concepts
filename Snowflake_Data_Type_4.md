@@ -1,170 +1,143 @@
-Snowflake Data Types and Objects
-Snowflake Data Types
+# Snowflake Data Types and Objects
 
-Snowflake supports most common SQL data types for use in columns, variables, expressions and function parameters.
+This document provides a clear overview of Snowflake data types and Snowflake objects. Content is organized for easy reading and suitable for a GitHub repository.
 
-Numeric Data Types
+---
 
-Snowflake supports numeric types including:
+## Snowflake Data Types
 
-NUMBER
+Snowflake supports a wide range of SQL data types for columns, expressions, variables and function parameters.
 
-DECIMAL, NUMERIC (synonymous with NUMBER)
+### 1. Numeric Data Types
 
-INT, INTEGER, BIGINT, SMALLINT, TINYINT, BYTEINT (aliases for NUMBER)
+Snowflake supports common numeric types:
 
-FLOAT, FLOAT4, FLOAT8
+* **NUMBER**
+* **DECIMAL**, **NUMERIC**
+* **INT**, **INTEGER**, **BIGINT**, **SMALLINT**, **TINYINT**, **BYTEINT**
+* **FLOAT**, **FLOAT4**, **FLOAT8**
+* **DOUBLE**, **DOUBLE PRECISION**, **REAL**
+* **DECFLOAT** (high precision decimal)
 
-DOUBLE, DOUBLE PRECISION, REAL (synonymous with FLOAT)
+The default precision for `NUMBER` is 38 with scale 0.
 
-DECFLOAT (high precision decimal)
+### 2. String and Binary Data Types
 
-The default precision for NUMBER is 38 with scale 0.
+* **VARCHAR** (default max length ~16 MB)
+* **CHAR**, **CHARACTER** (synonyms for VARCHAR)
+* **STRING**, **TEXT** (synonyms for VARCHAR)
+* **BINARY**, **VARBINARY**
 
-String and Binary Data Types
+### 3. Logical Data Type
 
-Snowflake supports character and binary data types:
+* **BOOLEAN** (TRUE, FALSE, NULL)
 
-VARCHAR (default max length ~16MB)
+### 4. Date and Time Data Types
 
-CHAR, CHARACTER (synonym for VARCHAR)
+* **DATE**
+* **DATETIME** (synonym for TIMESTAMP_NTZ)
+* **TIME**
+* **TIMESTAMP_LTZ**
+* **TIMESTAMP_NTZ**
+* **TIMESTAMP_TZ**
 
-STRING, TEXT (synonyms for VARCHAR)
+### 5. Semi-structured Data Types
 
-BINARY, VARBINARY (binary data)
+Used for flexible or nested data such as JSON, XML and Parquet.
 
-Logical Data Type
+* **VARIANT**
+* **OBJECT**
+* **ARRAY**
 
-BOOLEAN (supports TRUE, FALSE, and NULL)
+### 6. Geospatial Data Types
 
-Date and Time Data Types
+* **GEOGRAPHY**
+* **GEOMETRY**
 
-Snowflake supports date and time types:
+### 7. Vector Data Type
 
-DATE
+* **VECTOR** (useful for ML embeddings)
 
-DATETIME (synonym for TIMESTAMP_NTZ)
+### 8. Unsupported Data Types
 
-TIME
+| Category | Type               | Replacement   |
+| -------- | ------------------ | ------------- |
+| LOB      | BLOB               | Use BINARY    |
+| LOB      | CLOB               | Use VARCHAR   |
+| Other    | ENUM               | Not supported |
+| Other    | User-defined types | Not supported |
 
-TIMESTAMP_LTZ (local time zone)
+---
 
-TIMESTAMP_NTZ (no time zone)
+## Snowflake Objects Overview
 
-TIMESTAMP_TZ (time zone stored)
+Snowflake organizes data and metadata using a hierarchical structure.
 
-Semi-structured Data Types
+### Object Hierarchy
 
-These types allow storing nested and flexible data structures:
-
-VARIANT (can store any data type)
-
-OBJECT (key/value pairs)
-
-ARRAY (ordered list of values)
-
-Variant, Object and Array are commonly used to work with formats such as JSON, Parquet and XML.
-
-Geospatial Data Types
-
-Snowflake supports geospatial types:
-
-GEOGRAPHY
-
-GEOMETRY
-
-Vector Data Type
-
-VECTOR (for vectorized data, e.g., ML embeddings)
-
-Unsupported Data Types
-
-Snowflake does not support the following:
-
-Category	Type	Notes
-LOB (Large Object)	BLOB	Use BINARY instead
-CLOB	CLOB	Use VARCHAR instead
-Other	ENUM	Not supported
-Other	User-defined data types	Not supported
-Snowflake Objects Overview
-
-Snowflake organizes all data and metadata into a hierarchy of logical containers.
-
-Object Hierarchy
+```
 Organization
     │
- Account
-    ├── Users
-    ├── Roles
-    ├── Warehouses
-    ├── Databases
-    │     └── Schema
-    │          └── Schema Objects
-    └── Other Account Objects
+    └── Account
+           ├── Users
+           ├── Roles
+           ├── Warehouses
+           ├── Databases
+           │      └── Schemas
+           │             └── Schema Objects
+           └── Other Account Objects
+```
 
+### Key Concepts
 
-Organization: Top level, can contain multiple accounts.
+* **Organization**: Top level container for multiple accounts.
+* **Account**: Contains warehouses, roles, users and databases.
+* **Database**: Logical collection of schemas.
+* **Schema**: Groups related objects.
 
-Account: Main administrative boundary with users, roles, warehouses and databases.
+---
 
-Schema: Inside a database, groups related objects.
+## Schema-level Objects
 
-Schema Level Objects
+Objects inside a schema include:
 
-These are the primary objects that reside inside a schema:
+* **Table** – stores structured relational data
+* **View** – virtual table based on a query
+* **Stage** – internal or external storage location
+* **File Format** – describes file structure for loading/unloading
+* **Sequence** – generates unique numeric values
+* **Pipe** – Snowpipe continuous load definition
+* **Stream** – captures CDC (change data capture)
+* **Task** – runs SQL or procedural logic on schedule
+* **Stored Procedure** – encapsulated logic
+* **User Defined Function (UDF)** – custom functions
+* **Materialized View** – precomputed view for performance
+* **Tag** – metadata labels
 
-Table – structured table for storing relational data
+---
 
-View – virtual table based on a query
-
-Stage – location for file storage (internal or external)
-
-File Format – defines file structure for loading/unloading
-
-Sequence – generates unique sequence values
-
-Pipe – continuous data loading definitions (Snowpipe)
-
-Stream – tracks change data capture
-
-Task – scheduled execution of SQL or procedural logic
-
-Stored Procedure – encapsulated logic with parameters
-
-User Defined Function (UDF) – custom scalar functions
-
-Materialized View (optional performance view)
-
-Tag – key/value labels assignable to many objects
-
-Other Database and Account Objects
+## Database and Account-level Objects
 
 In addition to schema objects, Snowflake supports:
 
-Warehouse – compute resources for executing queries
+* **Warehouse** – compute layer for query execution
+* **User / Role** – identity and access control
+* **Integration** – external service configuration
+* **Network Policy** – IP and network restrictions
+* **Resource Monitor** – usage and cost controls
+* **Secure Views** – secure access to sensitive data
+* **Data Share** – share data across accounts
 
-Database – logical collection of schemas
+---
 
-User – identity in Snowflake
+## Metadata and Information Schema
 
-Role – access control entity
+Snowflake provides built-in metadata views:
 
-Integration – external service integration object
+* **INFORMATION_SCHEMA** – metadata for objects within a database
+* **ACCOUNT_USAGE** (in SNOWFLAKE database) – historical usage and object information
 
-Network Policy – IP and network controls
+These views help analyze structures, permissions, usage patterns and data models.
 
-Resource Monitor – tracking and limiting resource usage
+---
 
-Secure Views – row/column level secure access controls
-
-Data Share – shared data objects across accounts
-
-Information Schema and Metadata
-
-Snowflake includes:
-
-INFORMATION_SCHEMA – read-only schema with metadata views about databases, schemas, tables, columns and more.
-
-ACCOUNT_USAGE – views in the SNOWFLAKE database for historical usage and object metadata.
-
-You can query these to discover object definitions, usage and structure.
