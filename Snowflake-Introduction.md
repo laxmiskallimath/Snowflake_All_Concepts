@@ -62,7 +62,6 @@ Snowflake is a cloud-based data warehousing and analytics solution that runs on 
 ---
 
 ## Snowflake Architecture
-Snowflake uses a hybrid architecture combining shared-disk and shared-nothing designs.
 Snowflake’s architecture is a hybrid of traditional shared-disk and shared-nothing database architectures.
 Like shared-disk systems, Snowflake uses a central data repository accessible to all compute nodes.
 Like shared-nothing systems, Snowflake uses MPP compute clusters, where each node works on part of the data.
@@ -80,35 +79,30 @@ and scalability of shared-nothing systems.
 
 Think of Snowflake like this: we have VW1 and VW2. Query 1 runs on VW1 and Query 2 runs on VW2. Both queries read the same data from Snowflake’s central storage, but they use separate compute, so they never disturb each other. VW1 and VW2 work independently, but the data they use is still the same. Compute is independent, storage is shared.
 
-### Core Components
-- **C – Cloud Services Layer** (Infrastructure, Optimizer, Metadata, Security)
-- **Q – Query Processing Layer** (Virtual Warehouses)
-- **D – Database Storage Layer** (Centralized storage)
+Snowflake uses a simple three layer architecture:
 
-Snowflake’s architecture consists of:
-1. Database Storage  
-2. Query Processing  
-3. Cloud Services
+- **Cloud Services Layer(C):** Manages security, metadata, optimization, and system operations.
+- **Query Processing Layer(Q):** Uses Virtual Warehouses for compute and processing.
+- **Database Storage Layer(D):** Stores and manages all data in a centralized location.
 
 **1. Database Storage**
 
-The Database Storage layer is the place where all Snowflake data is stored centrally. Snowflake manages everything internally, so we don’t need to take care of partitions, indexes, or file organization. All data is stored in a compressed, columnar format, and Snowflake automatically divides it into micro-partitions to improve performance.
+The Database Storage layer is where all Snowflake data is stored in one central place. Snowflake manages everything on its own, so we do not have to worry about partitions, indexes, or file layouts. Data is stored in a compressed, columnar format, and Snowflake automatically organizes it into micro partitions to improve performance.
 
-This layer supports different types of data. Structured data is stored in tables with a fixed schema. Semi-structured formats like JSON, XML, Avro, and Parquet are also supported without needing to predefine a strict structure. Snowflake can also store unstructured files such as documents, images, and audio using the FILE data type.
+This layer supports multiple data types. Structured data is stored in tables with a defined schema. Semi structured data like JSON, XML, Avro, and Parquet is supported without needing to set a strict structure. Snowflake can also store unstructured files such as documents, images, and audio using the FILE data type.
 
-Because storage is fully handled by Snowflake, we get features like Time Travel, Fail-safe protection, and zero-copy cloning without any additional setup.
+Because Snowflake handles all storage internally, we get features like Time Travel, Fail Safe protection, and zero copy cloning without extra configuration.
 
 **2. Compute (Virtual Warehouses)**
 
-The Compute layer is responsible for running queries and processing data. In Snowflake, this is handled by Virtual Warehouses, which are clusters of compute resources dedicated to query execution.
+The Compute layer is responsible for running queries and processing data. In Snowflake, this work is done by Virtual Warehouses, which are clusters of compute resources dedicated to executing workloads.
 
-Virtual Warehouses run SQL queries, Snowpark programs written in languages such as Java, Python, and Scala, and even Apache Spark workloads through Snowpark Connect for Spark. Each warehouse works independently and does not share CPU or memory with others, so one workload never interferes with another.
+Virtual Warehouses can run SQL queries, Snowpark programs written in Java, Python, or Scala, and even Apache Spark workloads through Snowpark Connect for Spark. Each warehouse operates independently and does not share CPU or memory with others, so workloads never impact each other.
 
-We can scale a warehouse up or down at any time, or start and stop it whenever needed. Since compute and storage are completely separate, we only pay for compute when the warehouse is running.
+We can scale a warehouse up or down at any time, or start and stop it when needed. Since compute is separate from storage, we only pay for the warehouse when it is running.
 
 **3. Cloud Services**
 
-The Cloud Services layer acts as the overall coordinator for everything happening inside Snowflake. It handles all activities from authentication to query optimization and dispatching. This layer runs on infrastructure managed by Snowflake across cloud providers like AWS, Azure, and GCP.
+The Cloud Services layer acts like the central coordinator for Snowflake. It manages everything from authentication to query optimization. This layer runs on Snowflake managed infrastructure across cloud providers like AWS, Azure, and GCP.
 
-It is responsible for managing security and access control, maintaining metadata (including the SNOWFLAKE database and Information Schema), handling query parsing and optimization, and managing the Snowflake Horizon Catalog. It also covers compliance, infrastructure integration, and several built-in platform features such as data sharing, dynamic masking, and row access policies.
-
+It handles security and access control, manages metadata (including the SNOWFLAKE database and Information Schema), performs query parsing and optimization, and coordinates the Snowflake Horizon catalog. It also supports platform features such as data sharing, dynamic masking, and row access policies, along with compliance and integration across the cloud environment.
