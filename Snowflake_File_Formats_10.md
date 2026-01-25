@@ -21,6 +21,53 @@ SKIP_HEADER = 1;
 
 ---
 
+# Snowflake File Format Examples
+
+## Example 1: Create a CSV File Format in a Specific Database and Schema
+
+``` sql
+CREATE OR REPLACE FILE FORMAT MYDB.STAGING.STG_ACCOUNT_LOAD_FILE_FORMAT
+TYPE = CSV
+COMPRESSION = 'AUTO'
+FIELD_DELIMITER = ','
+RECORD_DELIMITER = '\n'
+SKIP_HEADER = 1;
+```
+
+## Example 2: Create a File Format With Additional CSV Options
+
+``` sql
+CREATE OR REPLACE FILE FORMAT MYDB.STAGING.STG_TRANSACTION_FILE_FORMAT
+TYPE = CSV
+FIELD_DELIMITER = ','
+RECORD_DELIMITER = '\n'
+SKIP_HEADER = 1
+FIELD_OPTIONALLY_ENCLOSED_BY = '"'
+NULL_IF = ('NULL', 'null', '');
+```
+
+## Example 3: Create a Simple File Format Inside PUBLIC Schema
+
+``` sql
+CREATE OR REPLACE FILE FORMAT MYDB.PUBLIC.SIMPLE_CSV_FORMAT
+TYPE = CSV
+FIELD_DELIMITER = ','
+SKIP_HEADER = 1;
+```
+
+## Example Four: Create a File Format for Pipe/Copy Data Loads
+
+``` sql
+CREATE OR REPLACE FILE FORMAT RAW_DB.LOAD.STG_CUSTOMER_FILE_FORMAT
+TYPE = CSV
+COMPRESSION = 'GZIP'
+FIELD_DELIMITER = ','
+SKIP_HEADER = 1
+TRIM_SPACE = TRUE
+EMPTY_FIELD_AS_NULL = TRUE;
+```
+
+
 # Supported File Formats
 
 ## Structured
