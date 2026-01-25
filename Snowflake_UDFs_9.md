@@ -27,7 +27,7 @@ Below is the example shown in the screenshot for creating a Python UDF.
 CREATE OR REPLACE FUNCTION addone(i int)
 RETURNS int
 LANGUAGE python
-RUNTIME_VERSION = '3.8'
+RUNTIME_VERSION = '3.9'
 HANDLER = 'addone_py'
 AS
 $$
