@@ -5,8 +5,7 @@
 
 
 -- Step 1: Disable Cache for Fair Performance Comparison
--- Snowflake stores query results in cache. To measure real performance,
--- we disable cache so that every query scans actual data.
+-- Snowflake stores query results in cache. To measure real performance,we disable cache so that every query scans actual data.
 -----------------------------------------------------------------------
 ALTER SESSION SET use_cached_result = FALSE;
 
@@ -16,9 +15,7 @@ ALTER WAREHOUSE compute_wh RESUME;
 
 -----------------------------------------------------------------------
 -- Step 2: Prepare Database, Schema, and Table
--- We create a new transient database and schema. Then we copy the large
--- sample Orders table (millions of rows) into our own location to run
--- materialized view tests.
+-- We create a new transient database and schema. Then we copy the large sample Orders table (millions of rows) into our own location to run materialized view tests.
 -----------------------------------------------------------------------
 CREATE OR REPLACE TRANSIENT DATABASE orders;
 CREATE OR REPLACE SCHEMA orders.tpch_sf100;
@@ -38,8 +35,7 @@ LIMIT 10;
 
 -----------------------------------------------------------------------
 -- Step 3: Baseline Aggregation Query on Base Table
--- This query scans the full table and performs aggregation. This gives
--- us a baseline performance measure before creating the materialized view.
+-- This query scans the full table and performs aggregation. This gives us a baseline performance measure before creating the materialized view.
 -----------------------------------------------------------------------
 SELECT
     YEAR(o_orderdate) AS year,
@@ -53,9 +49,7 @@ ORDER BY year;
 
 -----------------------------------------------------------------------
 -- Step 4: Create Materialized View
--- The materialized view stores precomputed aggregated values so that
--- future queries run faster. Snowflake automatically maintains and
--- refreshes the materialized view when data changes.
+-- The materialized view stores precomputed aggregated values so that future queries run faster. Snowflake automatically maintains and refreshes the materialized view when data changes.
 -----------------------------------------------------------------------
 CREATE OR REPLACE MATERIALIZED VIEW orders_mv AS
 SELECT
@@ -72,8 +66,7 @@ SHOW MATERIALIZED VIEWS IN SCHEMA orders.tpch_sf100;
 
 -----------------------------------------------------------------------
 -- Step 5: Query the Materialized View
--- Since results are precomputed and stored physically, this query will
--- run much faster compared to the baseline query on the base table.
+-- Since results are precomputed and stored physically, this query will run much faster compared to the baseline query on the base table.
 -----------------------------------------------------------------------
 SELECT *
 FROM orders_mv
@@ -81,8 +74,7 @@ ORDER BY year;
 
 -----------------------------------------------------------------------
 -- Step 6: Update Base Table to Trigger MV Refresh
--- Any update to the base table will require Snowflake to refresh the
--- materialized view. Updates refresh incrementally instead of full scan.
+-- Any update to the base table will require Snowflake to refresh the materialized view. Updates refresh incrementally instead of full scan.
 -----------------------------------------------------------------------
 UPDATE orders.tpch_sf100.orders
 SET o_clerk = 'Clerk#99900000'
@@ -104,8 +96,7 @@ ORDER BY year;
 
 -----------------------------------------------------------------------
 -- Step 8: Query Materialized View Again
--- Even if REFRESHED_ON is not updated immediately, Snowflake provides
--- correct values because it uses on demand lookups for changed data.
+-- Even if REFRESHED_ON is not updated immediately, Snowflake provides correct values because it uses on demand lookups for changed data.
 -----------------------------------------------------------------------
 SELECT *
 FROM orders_mv
